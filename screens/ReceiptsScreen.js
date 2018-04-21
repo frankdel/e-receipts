@@ -7,14 +7,9 @@ import {ScrollView,
 		AppRegistry,
 		ActivityIndicator,
 		TouchableHighlight} from 'react-native';
-	// NOT sure if files needed
-		import Icon from 'react-native-vector-icons/FontAwesome';
-		import HomeScreen from '../screens/HomeScreen';
-		import RootNavigation from '../navigation/RootNavigation';
 		import {
 		  NavigationActions,
 		} from 'react-navigation';
-	// NOT sure above
 
 var badUrl = 'https://facebook.github.io/react/logo-og.png';
 
@@ -27,23 +22,11 @@ export default class ReceiptsScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+			receiptName: 'test1',
     };
   }
 
-	// CODE from Loginscreen might not be needed
-	resetNavigation(targetRoute) {
-const resetAction = NavigationActions.reset({
-	index: 0,
-	key: null,
-	actions: [
-		NavigationActions.navigate({ routeName: targetRoute }),
-	],
-});
-this.props.navigation.dispatch(resetAction);
-}
-	// ends loginscreen code
-
-	componentDidMount() {
+	getReceiptImg() {
     var url =
       'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/getreceipt';
     return fetch(url, {
@@ -64,7 +47,7 @@ this.props.navigation.dispatch(resetAction);
           function() {
             var url = JSON.stringify(JSON.parse(responseJson.body).message);
 						url = url.replace(/['"]+/g, '');
-						console.log('In Function URL:' + url);
+						//console.log('In Function URL:' + url);
             if (url == 'null') {
               this.setState({
                 imgUrl: badUrl,
@@ -84,7 +67,10 @@ this.props.navigation.dispatch(resetAction);
 
   render() {
 		const { navigate } = this.props.navigation;
+		var rName = JSON.stringify(this.state.receiptName);
+
 		if (this.state.isLoading) {
+			this.getReceiptImg();
       return (
         <View style={{ flex: 1, padding: 20, paddingTop: 375 }}>
           <ActivityIndicator />
@@ -95,8 +81,8 @@ this.props.navigation.dispatch(resetAction);
 	 <ScrollView style={styles.container}>
       <View style={styles.row}><Text style={{fontSize:28,textAlign: 'center',}}>Receipts List</Text></View>
 	  <View style={styles.row}>
-		<Text>Receipt 1 Button</Text>
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('SignupScreen')}>
+		<Text>Receipt {rName}</Text>
+        <TouchableHighlight onPress={() => navigate('ReceiptImgScreen',{receiptName: rName})}>
         <Image
             source={{ uri: this.state.imgUrl }}
             style={styles.imageStyle}
@@ -104,8 +90,8 @@ this.props.navigation.dispatch(resetAction);
         </TouchableHighlight>
 		</View>
 		<View style={styles.row}>
-		<Text>Receipt 2 Button</Text>
-        <TouchableHighlight onPress={() => navigate('HomeScreen')}>
+		<Text>Receipt {rName}</Text>
+        <TouchableHighlight onPress={() => navigate('ReceiptImgScreen',{receiptName: rName})}>
         <Image
             source={{ uri: this.state.imgUrl }}
             style={styles.imageStyle}
