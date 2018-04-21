@@ -10,8 +10,9 @@ import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import MainTabNavigator from './navigation/MainTabNavigator';
+import SingleReceiptScreen from './screens/SingleReceiptScreen';
 
-const AppNavigator = StackNavigator( 
+const AppNavigator = StackNavigator(
   {
     LoginScreen: {
       screen: LoginScreen
@@ -22,8 +23,11 @@ const AppNavigator = StackNavigator(
     SignupScreen: {
       screen:SignupScreen
     },
-    SettingsScreen: { 
+    SettingsScreen: {
       screen: SettingsScreen
+    },
+    ReceiptImgScreen: {
+      screen: SingleReceiptScreen
     },
   },
   {
