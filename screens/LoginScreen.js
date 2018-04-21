@@ -17,13 +17,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
 import RootNavigation from '../navigation/RootNavigation';
 import {
-  StackNavigator,
   NavigationActions,
 } from 'react-navigation';
-
-export const AppN = StackNavigator({
-  Home: { screen: HomeScreen },
-});
 
 export default class LoginScreen extends React.Component {
 static navigationOptions = {

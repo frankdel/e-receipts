@@ -9,9 +9,31 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
-export const AppNavigator =StackNavigator({
- RootNavigation:{screen:RootNavigation},
-})
+import MainTabNavigator from './navigation/MainTabNavigator';
+
+const AppNavigator = StackNavigator( 
+  {
+    LoginScreen: {
+      screen: LoginScreen
+    },
+    Main: {
+      screen: MainTabNavigator,
+    },
+    SignupScreen: {
+      screen:SignupScreen
+    },
+    SettingsScreen: { 
+      screen: SettingsScreen
+    },
+  },
+  {
+    navigationOptions: () => ({
+      headerTitleStyle: {
+        fontWeight: 'normal',
+      },
+    }),
+  }
+);
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,

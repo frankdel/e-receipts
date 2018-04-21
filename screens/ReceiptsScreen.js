@@ -12,16 +12,11 @@ import {ScrollView,
 		import HomeScreen from '../screens/HomeScreen';
 		import RootNavigation from '../navigation/RootNavigation';
 		import {
-		  StackNavigator,
 		  NavigationActions,
 		} from 'react-navigation';
 	// NOT sure above
 
 var badUrl = 'https://facebook.github.io/react/logo-og.png';
-
-export const AppN = StackNavigator({
-  Home: { screen: HomeScreen },
-});
 
 export default class ReceiptsScreen extends React.Component {
   static navigationOptions = {

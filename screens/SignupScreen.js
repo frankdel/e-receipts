@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import {
-  StackNavigator,
 } from 'react-navigation';
 const util=require('util');
 

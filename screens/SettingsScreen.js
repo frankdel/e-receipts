@@ -2,7 +2,6 @@ import React from 'react';
 import {AppRegistry,ScrollView,Text,StyleSheet,View,Image,TouchableHighlight,Alert} from 'react-native'
 import { ExpoConfigView } from '@expo/samples';
 import {
-  StackNavigator,
   NavigationActions,
 } from 'react-navigation';
 
