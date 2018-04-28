@@ -47,6 +47,7 @@ static navigationOptions = {
     console.log(this.state.username);
     console.log(this.state.password);
     var username=this.state.username;
+    global.userName = username;
     var password=this.state.password;
     if(username.length < 1 || password.length<1)
     {
