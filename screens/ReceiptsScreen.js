@@ -30,13 +30,15 @@ export default class ReceiptsScreen extends React.Component {
   }
 
 	getNames() {
+		console.log("global username: "+global.userName);
+		var globalUserName = global.userName;
     var url =
       'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/GetAllRecipt';
     return fetch(url, {
       method: 'Post',
       body: JSON.stringify({
         body: {
-          userName: 'TestUser123',
+          userName: globalUserName,
         },
       }),
     })
@@ -131,14 +133,14 @@ export default class ReceiptsScreen extends React.Component {
 			<Text style={{fontSize:28,textAlign: 'center',}}>Receipts List</Text></View>
 			{dir.map((value, key) =>
 			<View style={styles.row} key={key}>
-			<Text key={key}>Receipt {value.key}</Text>
+			<Text key={key+1}>Receipt {value.key}</Text>
 	        <TouchableHighlight
-					key={key}
+					key={key+2}
 					onPress=
 						{() => navigate('ReceiptImgScreen',
 						{receiptName: value.key})}>
 	        <Image
-							key={key}
+							key={key+3}
 	            source={{ uri: value.value }}
 	            style={styles.imageStyle}
 	          />
