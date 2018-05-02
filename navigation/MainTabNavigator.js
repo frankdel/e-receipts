@@ -7,12 +7,16 @@ import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import QRScreen from '../screens/QRScreen';
 import ReceiptsScreen from '../screens/ReceiptsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
+    },
+	 QRCode: {
+      screen: QRScreen,
     },
     Receipts: {
       screen: ReceiptsScreen,
