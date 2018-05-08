@@ -50,7 +50,7 @@ export default class ReceiptsScreen extends React.Component {
           function() {
             var url = JSON.stringify(JSON.parse(responseJson.body).message);
 						url = url.replace(/['"]+/g, '');
-						console.log('In Function URL:' + url);
+						//console.log('In Function URL:' + url);
             if (url == 'null') {
               this.setState({
                 imgUrl: badUrl,

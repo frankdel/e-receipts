@@ -12,6 +12,9 @@ import {ScrollView,
 		} from 'react-navigation';
 
 var badUrl = 'https://facebook.github.io/react/logo-og.png';
+var dir = [];
+var count = 0;
+var totalSize = -1;
 
 export default class ReceiptsScreen extends React.Component {
   static navigationOptions = {
@@ -21,19 +24,21 @@ export default class ReceiptsScreen extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {
+			loadingNames: true,
       isLoading: true,
-			receiptName: 'test1',
     };
   }
 
-	getReceiptImg() {
+	getNames() {
+		console.log("global username: "+global.userName);
+		var globalUserName = global.userName;
     var url =
-      'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/getreceipt';
+      'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/GetAllRecipt';
     return fetch(url, {
       method: 'Post',
       body: JSON.stringify({
         body: {
-          receiptName: 'test1',
+          userName: globalUserName,
         },
       }),
     })
@@ -41,22 +46,67 @@ export default class ReceiptsScreen extends React.Component {
       .then(responseJson => {
         this.setState(
           {
-            isLoading: false,
+            loadingNames: false,
+            dataSource: JSON.stringify(
+              JSON.parse(responseJson.body).message.recordset[1].receiptName
+            ),
+          },
+          function() {
+            var myObject = JSON.parse(responseJson.body).message.recordset;
+            var size = Object.keys(myObject).length;
+						totalSize = size;
+            for (var i = 0; i < size; i++) {
+              var getName = JSON.stringify(
+                JSON.parse(responseJson.body).message.recordset[i].receiptName
+              );
+              this.getReceiptImg(getName);
+            }
+          }
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+	getReceiptImg(nameIn) {
+    var url =
+      'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/getreceipt';
+    nameIn = nameIn.replace(/["]+/g, '');
+    return fetch(url, {
+      method: 'Post',
+      body: JSON.stringify({
+        body: {
+          receiptName: nameIn,
+        },
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState(
+          {
             dataSource: JSON.stringify(JSON.parse(responseJson.body).message),
           },
           function() {
             var url = JSON.stringify(JSON.parse(responseJson.body).message);
-						url = url.replace(/['"]+/g, '');
-						//console.log('In Function URL:' + url);
+            url = url.replace(/['"]+/g, '');
             if (url == 'null') {
-              this.setState({
-                imgUrl: badUrl,
-              });
+              dir.push({
+								key: nameIn,
+								value: badUrl,
+							});
             } else {
-              this.setState({
-                imgUrl: url,
-              });
+							dir.push({
+								key: nameIn,
+								value: url,
+							});
             }
+						count++;
+						if(count == totalSize){
+							this.setState({
+								isLoading: false,
+							});
+						}
           }
         );
       })
@@ -67,42 +117,39 @@ export default class ReceiptsScreen extends React.Component {
 
   render() {
 		const { navigate } = this.props.navigation;
-		var rName = JSON.stringify(this.state.receiptName);
 
-		if (this.state.isLoading) {
-			this.getReceiptImg();
+		if (this.state.loadingNames) {
+      this.getNames();
       return (
         <View style={{ flex: 1, padding: 20, paddingTop: 375 }}>
           <ActivityIndicator />
         </View>
       );
     }
+
     return (
 	 <ScrollView style={styles.container}>
-      <View style={styles.row}><Text style={{fontSize:28,textAlign: 'center',}}>Receipts List</Text></View>
-	  <View style={styles.row}>
-		<Text>Receipt {rName}</Text>
-        <TouchableHighlight onPress={() => navigate('ReceiptImgScreen',{receiptName: rName})}>
-        <Image
-            source={{ uri: this.state.imgUrl }}
-            style={styles.imageStyle}
-          />
-        </TouchableHighlight>
-		</View>
-		<View style={styles.row}>
-		<Text>Receipt {rName}</Text>
-        <TouchableHighlight onPress={() => navigate('ReceiptImgScreen',{receiptName: rName})}>
-        <Image
-            source={{ uri: this.state.imgUrl }}
-            style={styles.imageStyle}
-          />
-        </TouchableHighlight>
-			</View>
+      <View style={styles.row}>
+			<Text style={{fontSize:28,textAlign: 'center',}}>Receipts List</Text></View>
+			{dir.map((value, key) =>
+			<View style={styles.row} key={key}>
+			<Text key={key+1}>Receipt {value.key}</Text>
+	        <TouchableHighlight
+					key={key+2}
+					onPress=
+						{() => navigate('ReceiptImgScreen',
+						{receiptName: value.key})}>
+	        <Image
+							key={key+3}
+	            source={{ uri: value.value }}
+	            style={styles.imageStyle}
+	          />
+	        </TouchableHighlight>
+			</View>)}
 	  </ScrollView>
     )
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
