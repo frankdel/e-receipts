@@ -114,7 +114,6 @@ export default class ReceiptsScreen extends React.Component {
         console.error(error);
       });
   }
-
   render() {
 		const { navigate } = this.props.navigation;
 

@@ -6,8 +6,10 @@ import {ScrollView,
 		Image,
 		AppRegistry,
 		ActivityIndicator,
-		TouchableHighlight} from 'react-native';
-		import {
+		TouchableHighlight,
+		Button,
+		Alert} from 'react-native';
+import {
 		  NavigationActions,
 		} from 'react-navigation';
 
@@ -25,6 +27,12 @@ export default class ReceiptsScreen extends React.Component {
       isLoading: true,
     };
   }
+	//
+	Delete(name)
+	{
+		Alert.alert(name);
+		//Alert.alert('Delete successfully!');
+	}
 
 	getReceiptImg(nameIn) {
     nameIn = nameIn.replace(/["]+/g, '');
@@ -67,7 +75,6 @@ export default class ReceiptsScreen extends React.Component {
         console.error(error);
       });
   }
-
   render() {
 		const { navigate } = this.props.navigation;
     const { params } = this.props.navigation.state;
@@ -85,6 +92,19 @@ export default class ReceiptsScreen extends React.Component {
 	 <ScrollView style={styles.container}>
 	  <View style={styles.row}>
 		<Text>Receipt {rName}</Text>
+		<Button
+		onPress={() => Alert.alert(
+			'Delete Receipt',
+			'Comfirm to delete this receipt?',
+			[
+				{text: 'Yes', onPress: () => this.Delete(rName)},
+				{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+			],
+	{ cancelable: false }
+)}
+  	title="Delete"
+  	accessibilityLabel="Delete this receipt."
+/>
         <Image
             source={{ uri: this.state.imgUrl }}
             style={styles.imageStyle}
