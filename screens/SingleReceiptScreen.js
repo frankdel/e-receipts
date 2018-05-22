@@ -32,6 +32,7 @@ export default class ReceiptsScreen extends React.Component {
 	//
 	Delete(name)
 	{
+		const { navigate } = this.props.navigation;
 		//Alert.alert(name);
 		var url = 'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/deletereceipt';
      fetch(url, {
@@ -50,7 +51,7 @@ export default class ReceiptsScreen extends React.Component {
 								console.log('receipt had been deleted')
 								this.setState({ accessToken: json.done.json.access_token });
 						})
-
+   navigate('ReceiptsScreen');
 }
 
 	getReceiptImg(nameIn) {
@@ -116,7 +117,7 @@ export default class ReceiptsScreen extends React.Component {
 			'Delete Receipt',
 			'Comfirm to delete this receipt?',
 			[
-				{text: 'Yes', onPress: () => this.Delete(rName), navigate('ReceiptsScreen',{ userName: globalUserName })},
+				{text: 'Yes', onPress: () => this.Delete(rName)},
 				{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
 			],
 	{ cancelable: false }
