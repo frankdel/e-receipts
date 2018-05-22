@@ -8,6 +8,8 @@ import {ScrollView,
 		ActivityIndicator,
 		TouchableHighlight,
 		Button,
+		StackNavigator,
+		ReceiptsScreen,
 		Alert} from 'react-native';
 import {
 		  NavigationActions,
@@ -30,9 +32,26 @@ export default class ReceiptsScreen extends React.Component {
 	//
 	Delete(name)
 	{
-		Alert.alert(name);
-		//Alert.alert('Delete successfully!');
-	}
+		//Alert.alert(name);
+		var url = 'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/deletereceipt';
+     fetch(url, {
+        method: 'Post',
+        body: JSON.stringify({
+           body:{
+                   receiptName:name,
+                }
+
+	       })
+      })
+			.then((response) => {
+								return response.json();
+						})
+			.then((json) => {
+								console.log('receipt had been deleted')
+								this.setState({ accessToken: json.done.json.access_token });
+						})
+
+}
 
 	getReceiptImg(nameIn) {
     nameIn = nameIn.replace(/["]+/g, '');
@@ -97,7 +116,7 @@ export default class ReceiptsScreen extends React.Component {
 			'Delete Receipt',
 			'Comfirm to delete this receipt?',
 			[
-				{text: 'Yes', onPress: () => this.Delete(rName)},
+				{text: 'Yes', onPress: () => this.Delete(rName), navigate('ReceiptsScreen',{ userName: globalUserName })},
 				{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
 			],
 	{ cancelable: false }
