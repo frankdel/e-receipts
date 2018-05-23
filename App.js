@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import MainTabNavigator from './navigation/MainTabNavigator';
 import SingleReceiptScreen from './screens/SingleReceiptScreen';
+import ReceiptsScreen from './screens/ReceiptsScreen';
 
 const AppNavigator = StackNavigator(
   {
@@ -25,6 +26,9 @@ const AppNavigator = StackNavigator(
     },
     SettingsScreen: {
       screen: SettingsScreen
+    },
+    Receipts: {
+      screen: ReceiptsScreen,
     },
     ReceiptImgScreen: {
       screen: SingleReceiptScreen
