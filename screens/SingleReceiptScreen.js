@@ -33,8 +33,7 @@ export default class SingleReceiptScreen extends React.Component {
 	Delete(name)
 	{
 		const { navigate } = this.props.navigation;
-		//navigate('ReceiptsScreen');
-		//Alert.alert(name);
+
 		var url = 'https://6cl2u8dzoi.execute-api.us-east-2.amazonaws.com/StageOne/deletereceipt';
      fetch(url, {
         method: 'Post',
@@ -50,10 +49,8 @@ export default class SingleReceiptScreen extends React.Component {
 						})
 			.then((json) => {
 								console.log('receipt had been deleted')
-								//this.setState({ accessToken: json.done.json.access_token });
 						})
-		navigate('Main')
-   //navigate('ReceiptsScreen');
+		navigate('Receipts')
 }
 
 	getReceiptImg(nameIn) {
