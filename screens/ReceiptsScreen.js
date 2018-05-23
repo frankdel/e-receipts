@@ -6,7 +6,8 @@ import {ScrollView,
 		Image,
 		AppRegistry,
 		ActivityIndicator,
-		TouchableHighlight} from 'react-native';
+		TouchableHighlight,
+	RefreshControl} from 'react-native';
 		import {
 		  NavigationActions,
 		} from 'react-navigation';
@@ -26,6 +27,7 @@ export default class ReceiptsScreen extends React.Component {
     this.state = {
 			loadingNames: true,
       isLoading: true,
+			refreshing: false,
     };
   }
 
@@ -114,6 +116,17 @@ export default class ReceiptsScreen extends React.Component {
         console.error(error);
       });
   }
+	_onRefresh() {
+    this.setState({refreshing: true});
+		dir = [];
+		this.setState(
+			{
+				loadingNames: true,
+				isLoading: true,
+				refreshing: false,
+			}
+		);
+  }
   render() {
 		const { navigate } = this.props.navigation;
 
@@ -127,7 +140,13 @@ export default class ReceiptsScreen extends React.Component {
     }
 
     return (
-	 <ScrollView style={styles.container}>
+	 <ScrollView style={styles.container}
+	 refreshControl={
+	<RefreshControl
+		refreshing={this.state.refreshing}
+		onRefresh={this._onRefresh.bind(this)}
+	/>
+}>
       <View style={styles.row}>
 			<Text style={{fontSize:28,textAlign: 'center',}}>Receipts List</Text></View>
 			{dir.map((value, key) =>
